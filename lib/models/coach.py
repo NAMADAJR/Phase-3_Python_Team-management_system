@@ -77,31 +77,6 @@ class Coach:
         self.id = CURSOR.lastrowid
         type(self).all[self.id] = self
 
-    @classmethod
-    def create(cls, name, experience):
-        """ Initialize a new Coach instance and save the object to the database """
-        coach = cls(name, experience)
-        coach.save()
-        return coach
-
-    def update(self):
-        """Update the table row corresponding to the current Coach instance."""
-        sql = """
-            UPDATE coaches
-            SET name = ?, experience = ?
-            WHERE id = ?
-        """
-        CURSOR.execute(sql, (self.name, self.experience, self.id))
-        CONN.commit()
-
-    def delete(self):
-        """Delete the table row corresponding to the current Coach instance,
-        delete the dictionary entry, and reassign id attribute"""
-
-        sql = """
-            DELETE FROM coaches
-            WHERE id = ?
-        """
 
         CURSOR.execute(sql, (self.id,))
         CONN.commit()
