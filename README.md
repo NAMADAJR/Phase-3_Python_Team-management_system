@@ -1,172 +1,154 @@
-# Phase 3 CLI+ORM Project Template
+# Football Management System
 
-## Learning Goals
 
-- Discuss the basic directory structure of a CLI.
-- Outline the first steps in building a CLI.
+This is a simple football management system written in Python. The system allows for managing players and coaches, with functionality to add, update, and list players, as well as associate players with specific coaches. The system also supports displaying all players under a selected coach and assigning positions to players.
 
----
+## Table of Contents
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Usage](#usage)
+- [Database Schema](#database-schema)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Introduction
+## Features
 
-You now have a basic idea of what constitutes a CLI. Fork and clone this lesson
-for a project template for your CLI.
+- Add new players to the system with an option to choose a position.
+- Players can be assigned to a coach from a list of available coaches.
+- List all players and all coaches in the system.
+- Update or delete player details.
+- Display all players under a selected coach.
+- Predefined positions include: Goalkeeper, Defender, Midfielder, and Forward.
 
-Take a look at the directory structure:
+## Getting Started
 
-```console
-.
-├── Pipfile
-├── Pipfile.lock
-├── README.md
-└── lib
-    ├── models
-    │   ├── __init__.py
-    │   └── model_1.py
-    ├── cli.py
-    ├── debug.py
-    └── helpers.py
+### Prerequisites
+
+Before you begin, ensure you have the following installed on your system:
+
+- Python 3.x
+- SQLite3 (Python's standard library includes support for SQLite)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/football-management-system.git
+   ```
+   ```bash
+   cd football-management-system
+   ```
+
+2. Install dependencies:
+   ```bash
+    pipenv install
+   ``` 
+3. Set up the database schema by running the setup.py script:
+    ```bash
+    python lib/insert_data.py
+    ```
+## Project Structure
+The project is organized as follows:
+
+```bash
+lib/
+│
+├── models/
+│   ├── player.py           
+│   ├── coach.py            
+│   └── __init__.py         
+│
+├── helpers.py             
+├── cli.py                  
+└── insert_data.py                
+```
+### Models
+- `Player`: Represents a player with attributes like name, position, and coach.
+
+- `Coach`: Represents a coach with attributes like name and experience.
+
+CLI Interface: The cli.py file provides a command-line interface to interact with the system.
+
+## Usage
+To run the football management system, use the following command:
+```bash
+python lib/cli.py
+```
+This will launch the command-line interface where you can:
+1. Add new players.
+2. View a list of all players and coaches.
+3. Update or delete players.
+4. View players assigned to specific coaches.
+
+Example Flow:
+- Add a player to the system:
+```bash
+Choose a name.
+Choose a position (Goalkeeper, Defender, Midfielder, Forward).
+Assign the player to a coach.
 ```
 
-Note: The directory also includes two files named `CONTRIBUTING.md` and
-`LICENSE.md` that are specific to Flatiron's curriculum. You can disregard or
-delete the files if you want.
-
----
-
-## Generating Your Environment
-
-You might have noticed in the file structure- there's already a Pipfile!
-
-Install any additional dependencies you know you'll need for your project by
-adding them to the `Pipfile`. Then run the commands:
-
-```console
-pipenv install
-pipenv shell
+- List all players and coaches:
+```bash
+View players with details such as their name, position, and coach.
 ```
 
----
+- View players by coach:
+```bash
+Select a coach and display all players associated with that coach.
+```
 
-## Generating Your CLI
+#### Menu Options:
+```bash
+Please select an option:
+0. Exit the program
+1. Add a player
+2. List all players
+3. List all coaches
+4. Update a player
+5. Delete a player
+6. View players by coach
+```
 
-A CLI is, simply put, an interactive script and prompts the user and performs
-operations based on user input.
-
-The project template has a sample CLI in `lib/cli.py` that looks like this:
+### Database Schema
+The system uses SQLite for storing player and coach data. Below is an overview of the tables used:
 
 ```py
-# lib/cli.py
-
-from helpers import (
-    exit_program,
-    helper_1
-)
+coach:
+id: INTEGER PRIMARY KEY
+name: TEXT
+experience: INTEGER
 
 
-def main():
-    while True:
-        menu()
-        choice = input("> ")
-        if choice == "0":
-            exit_program()
-        elif choice == "1":
-            helper_1()
-        else:
-            print("Invalid choice")
-
-
-def menu():
-    print("Please select an option:")
-    print("0. Exit the program")
-    print("1. Some useful function")
-
-
-if __name__ == "__main__":
-    main()
+player:
+id: INTEGER PRIMARY KEY
+name: TEXT
+position: TEXT
+coach_id: INTEGER (Foreign key referencing the coaches table)
 ```
+## Contributing
+Contributions are welcome! If you'd like to contribute to the project, feel free to submit a pull request or open an issue.
 
-The helper functions are located in `lib/helpers.py`:
+### Steps to contribute:
+1. Fork the repository.
+2. Create a new branch `git checkout -b feature-branch`.
+3. Make your changes and commit them `git commit -m "Add new feature"`.
+4. Push to the branch `git push origin feature-branch`.
+5. Open a pull request.
 
-```py
-# lib/helpers.py
+## License
+MIT License
 
-def helper_1():
-    print("Performing useful function#1.")
+Copyright (c) [2024] [Namada Junior]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-def exit_program():
-    print("Goodbye!")
-    exit()
-```
 
-You can run the template CLI with `python lib/cli.py`, or include the shebang
-and make it executable with `chmod +x`. The template CLI will ask for input, do
-some work, and accomplish some sort of task.
 
-Past that, CLIs can be whatever you'd like, as long as you follow the project
-requirements.
 
-Of course, you will update `lib/cli.py` with prompts that are appropriate for
-your application, and you will update `lib/helpers.py` to replace `helper_1()`
-with a useful function based on the specific problem domain you decide to
-implement, along with adding other helper functions to the module.
-
-In the `lib/models` folder, you should rename `model_1.py` with the name of a
-data model class from your specific problem domain, and add other classes to the
-folder as needed. The file `lib/models/__init__.py` has been initialized to
-create the necessary database constants. You need to add import statements to
-the various data model classes in order to use the database constants.
-
-You are also welcome to implement a different module and directory structure.
-However, your project should be well organized, modular, and follow the design
-principal of separation of concerns, which means you should separate code
-related to:
-
-- User interface
-- Data persistence
-- Problem domain rules and logic
-
----
-
-## Updating README.md
-
-`README.md` is a Markdown file that should describe your project. You will
-replace the contents of this `README.md` file with a description of **your**
-actual project.
-
-Markdown is not a language that we cover in Flatiron's Software Engineering
-curriculum, but it's not a particularly difficult language to learn (if you've
-ever left a comment on Reddit, you might already know the basics). Refer to the
-cheat sheet in this assignments's resources for a basic guide to Markdown.
-
-### What Goes into a README?
-
-This README serves as a template. Replace the contents of this file to describe
-the important files in your project and describe what they do. Each Python file
-that you edit should get at least a paragraph, and each function should be
-described with a sentence or two.
-
-Describe your actual CLI script first, and with a good level of detail. The rest
-should be ordered by importance to the user. (Probably functions next, then
-models.)
-
-Screenshots and links to resources that you used throughout are also useful to
-users and collaborators, but a little more syntactically complicated. Only add
-these in if you're feeling comfortable with Markdown.
-
----
-
-## Conclusion
-
-A lot of work goes into a good CLI, but it all relies on concepts that you've
-practiced quite a bit by now. Hopefully this template and guide will get you off
-to a good start with your Phase 3 Project.
-
-Happy coding!
-
----
-
-## Resources
-
-- [Markdown Cheat Sheet](https://www.markdownguide.org/cheat-sheet/)
